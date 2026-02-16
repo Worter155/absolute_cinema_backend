@@ -49,6 +49,11 @@ public class MovieMapper {
         response.setCountryTitle(movie.getCountry().getTitle());
         response.setDirectorName(movie.getDirector().getName());
         response.setFilmCompanyTitle(movie.getFilmCompany().getTitle());
+
+        if (movie.getPosterPath() != null) {
+            response.setPosterUrl("/api/movies/" + movie.getId() + "/poster");
+        }
+
         return response;
     }
 }

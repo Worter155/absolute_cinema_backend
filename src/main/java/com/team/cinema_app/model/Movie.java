@@ -25,6 +25,9 @@ public class Movie {
     @Column(nullable = false)
     private Integer ageLimit;
 
+    @Column(name = "poster_path")
+    private String posterPath;
+
     @ManyToOne
     @JoinColumn(name = "genre_id")
     private Genre genre;

@@ -12,4 +12,5 @@ public class MovieResponse {
     private String genreTitle;
     private String directorName;
     private String filmCompanyTitle;
+    private String posterUrl;
 }

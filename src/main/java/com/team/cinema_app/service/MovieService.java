@@ -7,6 +7,7 @@ import com.team.cinema_app.model.*;
 import com.team.cinema_app.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,6 +22,8 @@ public class MovieService {
     private  final DirectorRepository directorRepository;
     private final FilmCompanyRepository filmCompanyRepository;
     private final MovieMapper mapper;
+
+    private final FileStorageService fileStorageService;
 
     public MovieResponse createMovie(MovieRequest request){
 
@@ -79,6 +82,33 @@ public class MovieService {
     }
 
     public void deleteMovie(Long id){
-        movieRepository.deleteById(id);
+        Movie movie = movieRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Фильм не найден"));
+
+        if (movie.getPosterPath() != null) {
+            fileStorageService.deletePoster(movie.getPosterPath());
+        }
+
+        movieRepository.delete(movie);
+    }
+
+    public void uploadPoster(Long id, MultipartFile file) {
+
+        Movie movie = movieRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Фильм не найден"));
+
+        if (movie.getPosterPath() != null) {
+            fileStorageService.deletePoster(movie.getPosterPath());
+        }
+
+        String path = fileStorageService.savePoster(id, file);
+
+        movie.setPosterPath(path);
+        movieRepository.save(movie);
+    }
+
+    public Movie findEntityById(Long id) {
+        return movieRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Фильм не найден"));
     }
 }
