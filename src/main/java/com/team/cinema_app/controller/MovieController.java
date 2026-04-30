@@ -4,12 +4,12 @@ import com.team.cinema_app.dto.MovieRequest;
 import com.team.cinema_app.dto.MovieResponse;
 import com.team.cinema_app.model.Movie;
 import com.team.cinema_app.service.MovieService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,6 +17,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/movies")
@@ -26,33 +27,34 @@ public class MovieController {
     private final MovieService movieService;
 
     @PostMapping
-    public MovieResponse createMovie(@RequestBody MovieRequest request){
-        return movieService.createMovie(request);
+    public ResponseEntity<MovieResponse> createMovie(@Valid @RequestBody MovieRequest request){
+        return ResponseEntity.ok().body(movieService.createMovie(request));
     }
 
     @GetMapping
-    public List<MovieResponse> getAllMovies(){
-        return movieService.getAllMovies();
+    public ResponseEntity<List<MovieResponse>> getAllMovies(){
+        return ResponseEntity.ok().body(movieService.getAllMovies());
     }
 
     @GetMapping("/{id}")
-    public MovieResponse getMovieById(@PathVariable Long id){
-        return movieService.getMovieById(id);
+    public ResponseEntity<MovieResponse> getMovieById(@PathVariable UUID id){
+        return ResponseEntity.ok().body(movieService.getMovieById(id));
     }
 
     @PutMapping("/{id}")
-    public MovieResponse updateMovieById(@PathVariable Long id, @RequestBody MovieRequest request){
-        return movieService.updateMovieById(id, request);
+    public ResponseEntity<MovieResponse> updateMovieById(@PathVariable UUID id, @Valid @RequestBody MovieRequest request){
+        return ResponseEntity.ok().body(movieService.updateMovieById(id, request));
     }
 
     @DeleteMapping("/{id}")
-    public void deleteMovie(@PathVariable Long id){
+    public ResponseEntity<Void> deleteMovie(@PathVariable UUID id){
         movieService.deleteMovie(id);
+        return ResponseEntity.noContent().build();
     }
 
     @PostMapping("/{id}/poster")
     public ResponseEntity<?> uploadPoster(
-            @PathVariable Long id,
+            @PathVariable UUID id,
             @RequestParam("file") MultipartFile file) {
 
         movieService.uploadPoster(id, file);
@@ -60,7 +62,7 @@ public class MovieController {
     }
 
     @GetMapping("/{id}/poster")
-    public ResponseEntity<Resource> getPoster(@PathVariable Long id) {
+    public ResponseEntity<Resource> getPoster(@PathVariable UUID id) {
 
         Movie movie = movieService.findEntityById(id);
 

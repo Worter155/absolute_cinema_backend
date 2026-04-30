@@ -41,7 +41,7 @@ public class MovieMapper {
 
     public MovieResponse toResponse(Movie movie){
         MovieResponse response = new MovieResponse();
-        response.setId(movie.getId());
+        response.setId(movie.getId().toString());
         response.setTitle(movie.getTitle());
         response.setDuration(movie.getDuration());
         response.setAgeLimit(movie.getAgeLimit());

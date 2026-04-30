@@ -2,6 +2,7 @@ package com.team.cinema_app.service;
 
 import com.team.cinema_app.dto.MovieRequest;
 import com.team.cinema_app.dto.MovieResponse;
+import com.team.cinema_app.exception.*;
 import com.team.cinema_app.mapper.MovieMapper;
 import com.team.cinema_app.model.*;
 import com.team.cinema_app.repository.*;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,17 +29,17 @@ public class MovieService {
 
     public MovieResponse createMovie(MovieRequest request){
 
-        Genre genre = genreRepository.findById(request.getGenreId())
-                .orElseThrow(() -> new RuntimeException("Жанр не найден"));
+        Genre genre = genreRepository.findById(UUID.fromString(request.getGenreId()))
+                .orElseThrow(() -> new GenreNotFoundException("Жанр не найден с id " + request.getGenreId()));
 
-        Country country = countryRepository.findById(request.getCountryId())
-                .orElseThrow(() -> new RuntimeException("Страна не найдена"));
+        Country country = countryRepository.findById(UUID.fromString(request.getCountryId()))
+                .orElseThrow(() -> new CountryNotFoundException("Страна не найдена с id " + request.getCountryId()));
 
-        Director director = directorRepository.findById(request.getDirectorId())
-                .orElseThrow(() -> new RuntimeException("Режиссер не найден"));
+        Director director = directorRepository.findById(UUID.fromString(request.getDirectorId()))
+                .orElseThrow(() -> new DirectorNotFoundException("Режиссер не найден с id " + request.getDirectorId()));
 
-        FilmCompany filmCompany = filmCompanyRepository.findById(request.getFilmCompanyId())
-                .orElseThrow(() -> new RuntimeException("Кинокомпания не найдена"));
+        FilmCompany filmCompany = filmCompanyRepository.findById(UUID.fromString(request.getFilmCompanyId()))
+                .orElseThrow(() -> new FilmCompanyNotFoundException("Кинокомпания не найдена с id " + request.getFilmCompanyId()));
 
         Movie movie = mapper.toEntity(request, genre, country, director, filmCompany);
 
@@ -53,26 +55,27 @@ public class MovieService {
                 .collect(Collectors.toList());
     }
 
-    public MovieResponse getMovieById(Long id){
-        Movie movie = movieRepository.findById(id).orElseThrow(() -> new RuntimeException("Фильм не найден"));
+    public MovieResponse getMovieById(UUID id){
+        Movie movie = movieRepository.findById(id)
+                .orElseThrow(() -> new MovieNotFoundException("Фильм не найден c id " + id));
         return mapper.toResponse(movie);
     }
 
-    public MovieResponse updateMovieById(Long id, MovieRequest request){
+    public MovieResponse updateMovieById(UUID id, MovieRequest request){
         Movie movie = movieRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Фильм не найден"));
+                .orElseThrow(() -> new MovieNotFoundException("Фильм не найден с id " + id));
 
-        Genre genre = genreRepository.findById(request.getGenreId())
-                .orElseThrow(() -> new RuntimeException("Жанр не найден"));
+        Genre genre = genreRepository.findById(UUID.fromString(request.getGenreId()))
+                .orElseThrow(() -> new GenreNotFoundException("Жанр не найден с id " + request.getGenreId()));
 
-        Country country = countryRepository.findById(request.getCountryId())
-                .orElseThrow(() -> new RuntimeException("Страна не найдена"));
+        Country country = countryRepository.findById(UUID.fromString(request.getCountryId()))
+                .orElseThrow(() -> new CountryNotFoundException("Страна не найдена с id " + request.getCountryId()));
 
-        Director director = directorRepository.findById(request.getDirectorId())
-                .orElseThrow(() -> new RuntimeException("Режиссер не найден"));
+        Director director = directorRepository.findById(UUID.fromString(request.getDirectorId()))
+                .orElseThrow(() -> new DirectorNotFoundException("Режиссер не найден с id " + request.getCountryId()));
 
-        FilmCompany filmCompany = filmCompanyRepository.findById(request.getFilmCompanyId())
-                .orElseThrow(() -> new RuntimeException("Кинокомпания не найдена"));
+        FilmCompany filmCompany = filmCompanyRepository.findById(UUID.fromString(request.getFilmCompanyId()))
+                .orElseThrow(() -> new FilmCompanyNotFoundException("Кинокомпания не найдена с id " + request.getCountryId()));
 
         mapper.updateEntity(movie, request, genre, country, director, filmCompany);
 
@@ -81,9 +84,9 @@ public class MovieService {
         return mapper.toResponse(updated);
     }
 
-    public void deleteMovie(Long id){
+    public void deleteMovie(UUID id){
         Movie movie = movieRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Фильм не найден"));
+                .orElseThrow(() -> new MovieNotFoundException("Фильм не найден c id " + id));
 
         if (movie.getPosterPath() != null) {
             fileStorageService.deletePoster(movie.getPosterPath());
@@ -92,10 +95,10 @@ public class MovieService {
         movieRepository.delete(movie);
     }
 
-    public void uploadPoster(Long id, MultipartFile file) {
+    public void uploadPoster(UUID id, MultipartFile file) {
 
         Movie movie = movieRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Фильм не найден"));
+                .orElseThrow(() -> new MovieNotFoundException("Фильм не найден c id " + id));
 
         if (movie.getPosterPath() != null) {
             fileStorageService.deletePoster(movie.getPosterPath());
@@ -107,8 +110,8 @@ public class MovieService {
         movieRepository.save(movie);
     }
 
-    public Movie findEntityById(Long id) {
+    public Movie findEntityById(UUID id) {
         return movieRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Фильм не найден"));
+                .orElseThrow(() -> new MovieNotFoundException("Фильм не найден c id " + id));
     }
 }

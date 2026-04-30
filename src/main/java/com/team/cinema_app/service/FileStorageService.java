@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.UUID;
 
 @Service
 public class FileStorageService {
@@ -16,7 +17,7 @@ public class FileStorageService {
     @Value("${file.upload-dir}")
     private String uploadDir;
 
-    public String savePoster(Long movieId, MultipartFile file) {
+    public String savePoster(UUID movieId, MultipartFile file) {
 
         try {
             String fileName = StringUtils.cleanPath(file.getOriginalFilename());

@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class MovieResponse {
-    private Long id;
+    private String id;
     private String title;
     private Integer duration;
     private Integer ageLimit;

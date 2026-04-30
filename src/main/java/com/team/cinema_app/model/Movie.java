@@ -1,7 +1,10 @@
 package com.team.cinema_app.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
+
+import java.util.UUID;
 
 @Entity
 @Table(name = "movies")
@@ -13,34 +16,37 @@ import lombok.*;
 public class Movie {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
 
-    @Column(nullable = false)
+    @NotNull
     private String title;
 
-    @Column(nullable = false)
+    @NotNull
     private Integer duration;
 
-    @Column(nullable = false)
+    @NotNull
     private Integer ageLimit;
 
-    @Column(name = "poster_path")
     private String posterPath;
 
     @ManyToOne
     @JoinColumn(name = "genre_id")
+    @NotNull
     private Genre genre;
 
     @ManyToOne
     @JoinColumn(name = "country_id")
+    @NotNull
     private Country country;
 
     @ManyToOne
     @JoinColumn(name = "director_id")
+    @NotNull
     private Director director;
 
     @ManyToOne
     @JoinColumn(name = "film_company_id")
+    @NotNull
     private FilmCompany filmCompany;
 }
