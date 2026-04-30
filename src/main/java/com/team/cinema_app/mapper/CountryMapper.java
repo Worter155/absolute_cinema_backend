@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class CountryMapper {
 
-    public CountryResponse toResponse(Country country){
+    public CountryResponse toResponse(Country country) {
         CountryResponse countryResponse = new CountryResponse();
         countryResponse.setId(country.getId());
         countryResponse.setTitle(country.getTitle());
@@ -16,7 +16,7 @@ public class CountryMapper {
         return countryResponse;
     }
 
-    public Country toEntity(CountryRequest request){
+    public Country toEntity(CountryRequest request) {
         return Country.builder()
                 .title(request.getTitle())
                 .build();

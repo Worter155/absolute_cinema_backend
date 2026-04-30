@@ -2,9 +2,11 @@ package com.team.cinema_app.service;
 
 import com.team.cinema_app.dto.GenreRequest;
 import com.team.cinema_app.dto.GenreResponse;
-import com.team.cinema_app.exception.GenreNotFoundException;
+import com.team.cinema_app.dto.MovieRequest;
+import com.team.cinema_app.dto.MovieResponse;
+import com.team.cinema_app.exception.*;
 import com.team.cinema_app.mapper.GenreMapper;
-import com.team.cinema_app.model.Genre;
+import com.team.cinema_app.model.*;
 import com.team.cinema_app.repository.GenreRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -37,6 +39,17 @@ public class GenreService {
         genreRepository.save(genre);
 
         return genreMapper.toResponse(genre);
+    }
+
+    public GenreResponse updateGenreById(UUID id, GenreRequest request) {
+        Genre genre = genreRepository.findById(id)
+                .orElseThrow(() -> new GenreNotFoundException("Жанр не найден с id " + id));
+
+        genre.setTitle(request.getTitle());
+
+        Genre updated = genreRepository.save(genre);
+
+        return genreMapper.toResponse(updated);
     }
 
     public void deleteGenre(UUID id){

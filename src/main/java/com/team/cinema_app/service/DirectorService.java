@@ -32,14 +32,25 @@ public class DirectorService {
         return directorMapper.toResponse(director);
     }
 
-    public DirectorResponse createDirector(DirectorRequest request){
+    public DirectorResponse createDirector(DirectorRequest request) {
         Director director = directorMapper.toEntity(request);
         directorRepository.save(director);
 
         return directorMapper.toResponse(director);
     }
 
-    public void deleteDirector(UUID id){
+    public DirectorResponse updateDirectorById(UUID id, DirectorRequest request) {
+        Director director = directorRepository.findById(id)
+                .orElseThrow(() -> new DirectorNotFoundException("Жанр не найден с id " + id));
+
+        director.setName(request.getName());
+
+        Director updated = directorRepository.save(director);
+
+        return directorMapper.toResponse(updated);
+    }
+
+    public void deleteDirector(UUID id) {
         directorRepository.deleteById(id);
     }
 }

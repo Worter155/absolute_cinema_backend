@@ -32,14 +32,25 @@ public class FilmCompanyService {
         return filmCompanyMapper.toResponse(filmCompany);
     }
 
-    public FilmCompanyResponse createFilmCompany(FilmCompanyRequest request){
+    public FilmCompanyResponse createFilmCompany(FilmCompanyRequest request) {
         FilmCompany filmCompany = filmCompanyMapper.toEntity(request);
         filmCompanyRepository.save(filmCompany);
 
         return filmCompanyMapper.toResponse(filmCompany);
     }
 
-    public void deleteFilmCompany(UUID id){
+    public FilmCompanyResponse updateFilmCompanyById(UUID id, FilmCompanyRequest request) {
+        FilmCompany filmCompany = filmCompanyRepository.findById(id)
+                .orElseThrow(() -> new FilmCompanyNotFoundException("Жанр не найден с id " + id));
+
+        filmCompany.setTitle(request.getTitle());
+
+        FilmCompany updated = filmCompanyRepository.save(filmCompany);
+
+        return filmCompanyMapper.toResponse(updated);
+    }
+
+    public void deleteFilmCompany(UUID id) {
         filmCompanyRepository.deleteById(id);
     }
 }

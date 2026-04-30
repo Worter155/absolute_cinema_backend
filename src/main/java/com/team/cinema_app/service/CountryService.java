@@ -32,14 +32,25 @@ public class CountryService {
         return countryMapper.toResponse(country);
     }
 
-    public CountryResponse createCountry(CountryRequest request){
+    public CountryResponse createCountry(CountryRequest request) {
         Country country = countryMapper.toEntity(request);
         countryRepository.save(country);
 
         return countryMapper.toResponse(country);
     }
 
-    public void deleteCountry(UUID id){
+    public CountryResponse updateCountryById(UUID id, CountryRequest request) {
+        Country country = countryRepository.findById(id)
+                .orElseThrow(() -> new CountryNotFoundException("Жанр не найден с id " + id));
+
+        country.setTitle(request.getTitle());
+
+        Country updated = countryRepository.save(country);
+
+        return countryMapper.toResponse(updated);
+    }
+
+    public void deleteCountry(UUID id) {
         countryRepository.deleteById(id);
     }
 }

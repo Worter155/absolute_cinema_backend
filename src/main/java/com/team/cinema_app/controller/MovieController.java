@@ -27,27 +27,27 @@ public class MovieController {
     private final MovieService movieService;
 
     @PostMapping
-    public ResponseEntity<MovieResponse> createMovie(@Valid @RequestBody MovieRequest request){
+    public ResponseEntity<MovieResponse> createMovie(@Valid @RequestBody MovieRequest request) {
         return ResponseEntity.ok().body(movieService.createMovie(request));
     }
 
     @GetMapping
-    public ResponseEntity<List<MovieResponse>> getAllMovies(){
+    public ResponseEntity<List<MovieResponse>> getAllMovies() {
         return ResponseEntity.ok().body(movieService.getAllMovies());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<MovieResponse> getMovieById(@PathVariable UUID id){
+    public ResponseEntity<MovieResponse> getMovieById(@PathVariable UUID id) {
         return ResponseEntity.ok().body(movieService.getMovieById(id));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<MovieResponse> updateMovieById(@PathVariable UUID id, @Valid @RequestBody MovieRequest request){
+    public ResponseEntity<MovieResponse> updateMovieById(@PathVariable UUID id, @Valid @RequestBody MovieRequest request) {
         return ResponseEntity.ok().body(movieService.updateMovieById(id, request));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteMovie(@PathVariable UUID id){
+    public ResponseEntity<Void> deleteMovie(@PathVariable UUID id) {
         movieService.deleteMovie(id);
         return ResponseEntity.noContent().build();
     }
@@ -91,7 +91,6 @@ public class MovieController {
             throw new RuntimeException("Не удалось загрузить файл");
         }
     }
-
 
 
 }

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class DirectorMapper {
-    public DirectorResponse toResponse(Director director){
+    public DirectorResponse toResponse(Director director) {
         DirectorResponse directorResponse = new DirectorResponse();
         directorResponse.setId(director.getId());
         directorResponse.setName(director.getName());
@@ -15,7 +15,7 @@ public class DirectorMapper {
         return directorResponse;
     }
 
-    public Director toEntity(DirectorRequest request){
+    public Director toEntity(DirectorRequest request) {
         return Director.builder()
                 .name(request.getName())
                 .build();

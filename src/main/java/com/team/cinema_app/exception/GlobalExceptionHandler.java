@@ -29,46 +29,46 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(MovieNotFoundException.class)
-    public ResponseEntity<Map<String,String>> handleMovieNotFoundException(MovieNotFoundException ex){
+    public ResponseEntity<Map<String, String>> handleMovieNotFoundException(MovieNotFoundException ex) {
         log.warn("Movie not found {}", ex.getMessage());
 
-        Map<String,String> errors = new HashMap<>();
+        Map<String, String> errors = new HashMap<>();
         errors.put("message", "Movie not found");
         return ResponseEntity.badRequest().body(errors);
     }
 
     @ExceptionHandler(GenreNotFoundException.class)
-    public ResponseEntity<Map<String,String>> handleGenreNotFoundException(GenreNotFoundException ex){
+    public ResponseEntity<Map<String, String>> handleGenreNotFoundException(GenreNotFoundException ex) {
         log.warn("Genre not found {}", ex.getMessage());
 
-        Map<String,String> errors = new HashMap<>();
+        Map<String, String> errors = new HashMap<>();
         errors.put("message", "Genre not found");
         return ResponseEntity.badRequest().body(errors);
     }
 
     @ExceptionHandler(CountryNotFoundException.class)
-    public ResponseEntity<Map<String,String>> handleCountryNotFoundException(CountryNotFoundException ex){
+    public ResponseEntity<Map<String, String>> handleCountryNotFoundException(CountryNotFoundException ex) {
         log.warn("Country not found {}", ex.getMessage());
 
-        Map<String,String> errors = new HashMap<>();
+        Map<String, String> errors = new HashMap<>();
         errors.put("message", "Country not found");
         return ResponseEntity.badRequest().body(errors);
     }
 
     @ExceptionHandler(DirectorNotFoundException.class)
-    public ResponseEntity<Map<String,String>> handleDirectorNotFoundException(DirectorNotFoundException ex){
+    public ResponseEntity<Map<String, String>> handleDirectorNotFoundException(DirectorNotFoundException ex) {
         log.warn("Director not found {}", ex.getMessage());
 
-        Map<String,String> errors = new HashMap<>();
+        Map<String, String> errors = new HashMap<>();
         errors.put("message", "Director not found");
         return ResponseEntity.badRequest().body(errors);
     }
 
     @ExceptionHandler(FilmCompanyNotFoundException.class)
-    public ResponseEntity<Map<String,String>> handleFilmCompanyNotFoundException(FilmCompanyNotFoundException ex){
+    public ResponseEntity<Map<String, String>> handleFilmCompanyNotFoundException(FilmCompanyNotFoundException ex) {
         log.warn("Film Company not found {}", ex.getMessage());
 
-        Map<String,String> errors = new HashMap<>();
+        Map<String, String> errors = new HashMap<>();
         errors.put("message", "Film Company not found");
         return ResponseEntity.badRequest().body(errors);
     }

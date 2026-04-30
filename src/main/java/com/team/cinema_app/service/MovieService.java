@@ -61,7 +61,7 @@ public class MovieService {
         return mapper.toResponse(movie);
     }
 
-    public MovieResponse updateMovieById(UUID id, MovieRequest request){
+    public MovieResponse updateMovieById(UUID id, MovieRequest request) {
         Movie movie = movieRepository.findById(id)
                 .orElseThrow(() -> new MovieNotFoundException("Фильм не найден с id " + id));
 

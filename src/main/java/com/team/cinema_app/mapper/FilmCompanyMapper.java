@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class FilmCompanyMapper {
-    public FilmCompanyResponse toResponse(FilmCompany filmCompany){
+    public FilmCompanyResponse toResponse(FilmCompany filmCompany) {
         FilmCompanyResponse filmCompanyResponse = new FilmCompanyResponse();
         filmCompanyResponse.setId(filmCompany.getId());
         filmCompanyResponse.setTitle(filmCompany.getTitle());
@@ -15,7 +15,7 @@ public class FilmCompanyMapper {
         return filmCompanyResponse;
     }
 
-    public FilmCompany toEntity(FilmCompanyRequest request){
+    public FilmCompany toEntity(FilmCompanyRequest request) {
         return FilmCompany.builder()
                 .title(request.getTitle())
                 .build();

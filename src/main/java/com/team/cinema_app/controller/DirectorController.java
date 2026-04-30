@@ -18,22 +18,27 @@ public class DirectorController {
     private final DirectorService directorService;
 
     @GetMapping()
-    public ResponseEntity<List<DirectorResponse>> getAllDirectors(){
+    public ResponseEntity<List<DirectorResponse>> getAllDirectors() {
         return ResponseEntity.ok().body(directorService.getAllDirectors());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<DirectorResponse> getDirectorById(@PathVariable UUID id){
+    public ResponseEntity<DirectorResponse> getDirectorById(@PathVariable UUID id) {
         return ResponseEntity.ok().body(directorService.getDirectorById(id));
     }
 
     @PostMapping()
-    public ResponseEntity<DirectorResponse> createDirector(@Valid @RequestBody DirectorRequest request){
+    public ResponseEntity<DirectorResponse> createDirector(@Valid @RequestBody DirectorRequest request) {
         return ResponseEntity.ok().body(directorService.createDirector(request));
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<DirectorResponse> updateDirectorById(@PathVariable UUID id, @Valid @RequestBody DirectorRequest request) {
+        return ResponseEntity.ok().body(directorService.updateDirectorById(id, request));
+    }
+
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteDirector(@PathVariable UUID id){
+    public ResponseEntity<Void> deleteDirector(@PathVariable UUID id) {
         directorService.deleteDirector(id);
         return ResponseEntity.noContent().build();
     }

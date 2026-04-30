@@ -18,22 +18,27 @@ public class FilmCompanyController {
     private final FilmCompanyService filmCompanyService;
 
     @GetMapping()
-    public ResponseEntity<List<FilmCompanyResponse>> getAllFilmCompanies(){
+    public ResponseEntity<List<FilmCompanyResponse>> getAllFilmCompanies() {
         return ResponseEntity.ok().body(filmCompanyService.getAllFilmCompanies());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<FilmCompanyResponse> getFilmCompanyById(@PathVariable UUID id){
+    public ResponseEntity<FilmCompanyResponse> getFilmCompanyById(@PathVariable UUID id) {
         return ResponseEntity.ok().body(filmCompanyService.getFilmCompanyById(id));
     }
 
     @PostMapping()
-    public ResponseEntity<FilmCompanyResponse> createFilmCompany(@Valid @RequestBody FilmCompanyRequest request){
+    public ResponseEntity<FilmCompanyResponse> createFilmCompany(@Valid @RequestBody FilmCompanyRequest request) {
         return ResponseEntity.ok().body(filmCompanyService.createFilmCompany(request));
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<FilmCompanyResponse> updateFilmCompanyById(@PathVariable UUID id, @Valid @RequestBody FilmCompanyRequest request) {
+        return ResponseEntity.ok().body(filmCompanyService.updateFilmCompanyById(id, request));
+    }
+
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteFilmCompany(@PathVariable UUID id){
+    public ResponseEntity<Void> deleteFilmCompany(@PathVariable UUID id) {
         filmCompanyService.deleteFilmCompany(id);
         return ResponseEntity.noContent().build();
     }

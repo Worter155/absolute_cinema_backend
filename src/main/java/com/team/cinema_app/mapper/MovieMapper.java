@@ -8,10 +8,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class MovieMapper {
     public Movie toEntity(MovieRequest request,
-                                 Genre genre,
-                                 Country country,
-                                 Director director,
-                                 FilmCompany filmCompany){
+                          Genre genre,
+                          Country country,
+                          Director director,
+                          FilmCompany filmCompany) {
         return Movie.builder()
                 .title(request.getTitle())
                 .duration(request.getDuration())
@@ -39,7 +39,7 @@ public class MovieMapper {
         movie.setFilmCompany(filmCompany);
     }
 
-    public MovieResponse toResponse(Movie movie){
+    public MovieResponse toResponse(Movie movie) {
         MovieResponse response = new MovieResponse();
         response.setId(movie.getId().toString());
         response.setTitle(movie.getTitle());

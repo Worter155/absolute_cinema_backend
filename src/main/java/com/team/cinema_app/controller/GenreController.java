@@ -2,6 +2,8 @@ package com.team.cinema_app.controller;
 
 import com.team.cinema_app.dto.GenreRequest;
 import com.team.cinema_app.dto.GenreResponse;
+import com.team.cinema_app.dto.MovieRequest;
+import com.team.cinema_app.dto.MovieResponse;
 import com.team.cinema_app.service.GenreService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +33,11 @@ public class GenreController {
     @PostMapping()
     public ResponseEntity<GenreResponse> createGenre(@Valid @RequestBody GenreRequest request){
         return ResponseEntity.ok().body(genreService.createGenre(request));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<GenreResponse> updateGenreById(@PathVariable UUID id, @Valid @RequestBody GenreRequest request) {
+        return ResponseEntity.ok().body(genreService.updateGenreById(id, request));
     }
 
     @DeleteMapping("/{id}")
