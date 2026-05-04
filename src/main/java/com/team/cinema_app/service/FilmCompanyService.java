@@ -33,8 +33,7 @@ public class FilmCompanyService {
     }
 
     public FilmCompanyResponse createFilmCompany(FilmCompanyRequest request) {
-        FilmCompany filmCompany = filmCompanyMapper.toEntity(request);
-        filmCompanyRepository.save(filmCompany);
+        FilmCompany filmCompany = filmCompanyRepository.save(filmCompanyMapper.toEntity(request));
 
         return filmCompanyMapper.toResponse(filmCompany);
     }

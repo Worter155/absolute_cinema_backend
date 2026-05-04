@@ -19,7 +19,7 @@ import java.util.UUID;
 )
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("api/country")
+@RequestMapping("/api/country")
 public class CountryController {
     private final CountryService countryService;
 

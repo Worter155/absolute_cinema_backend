@@ -30,46 +30,64 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MovieNotFoundException.class)
     public ResponseEntity<Map<String, String>> handleMovieNotFoundException(MovieNotFoundException ex) {
-        log.warn("Movie not found {}", ex.getMessage());
+        log.warn("Фильм не найден {}", ex.getMessage());
 
         Map<String, String> errors = new HashMap<>();
-        errors.put("message", "Movie not found");
+        errors.put("message", "Фильм не найден");
         return ResponseEntity.badRequest().body(errors);
     }
 
     @ExceptionHandler(GenreNotFoundException.class)
     public ResponseEntity<Map<String, String>> handleGenreNotFoundException(GenreNotFoundException ex) {
-        log.warn("Genre not found {}", ex.getMessage());
+        log.warn("Жанр не найден {}", ex.getMessage());
 
         Map<String, String> errors = new HashMap<>();
-        errors.put("message", "Genre not found");
+        errors.put("message", "Жанр не найден");
         return ResponseEntity.badRequest().body(errors);
     }
 
     @ExceptionHandler(CountryNotFoundException.class)
     public ResponseEntity<Map<String, String>> handleCountryNotFoundException(CountryNotFoundException ex) {
-        log.warn("Country not found {}", ex.getMessage());
+        log.warn("Страна не найдена {}", ex.getMessage());
 
         Map<String, String> errors = new HashMap<>();
-        errors.put("message", "Country not found");
+        errors.put("message", "Страна не найдена");
         return ResponseEntity.badRequest().body(errors);
     }
 
     @ExceptionHandler(DirectorNotFoundException.class)
     public ResponseEntity<Map<String, String>> handleDirectorNotFoundException(DirectorNotFoundException ex) {
-        log.warn("Director not found {}", ex.getMessage());
+        log.warn("Режиссер не найден {}", ex.getMessage());
 
         Map<String, String> errors = new HashMap<>();
-        errors.put("message", "Director not found");
+        errors.put("message", "Режиссер не найден");
         return ResponseEntity.badRequest().body(errors);
     }
 
     @ExceptionHandler(FilmCompanyNotFoundException.class)
     public ResponseEntity<Map<String, String>> handleFilmCompanyNotFoundException(FilmCompanyNotFoundException ex) {
-        log.warn("Film Company not found {}", ex.getMessage());
+        log.warn("Кинокомпания не найдена {}", ex.getMessage());
 
         Map<String, String> errors = new HashMap<>();
-        errors.put("message", "Film Company not found");
+        errors.put("message", "Кинокомпания не найдена");
+        return ResponseEntity.badRequest().body(errors);
+    }
+
+    @ExceptionHandler(HallTypeNotFoundException.class)
+    public ResponseEntity<Map<String, String>> handleHallTypeNotFoundException(HallTypeNotFoundException ex) {
+        log.warn("Тип зала не найден {}", ex.getMessage());
+
+        Map<String, String> errors = new HashMap<>();
+        errors.put("message", "Тип зала не найден");
+        return ResponseEntity.badRequest().body(errors);
+    }
+
+    @ExceptionHandler(HallNotFoundException.class)
+    public ResponseEntity<Map<String, String>> handleHallNotFoundException(HallNotFoundException ex) {
+        log.warn("Зал не найден {}", ex.getMessage());
+
+        Map<String, String> errors = new HashMap<>();
+        errors.put("message", "Зал не найден");
         return ResponseEntity.badRequest().body(errors);
     }
 }

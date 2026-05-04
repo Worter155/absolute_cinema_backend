@@ -41,9 +41,7 @@ public class MovieService {
         FilmCompany filmCompany = filmCompanyRepository.findById(UUID.fromString(request.getFilmCompanyId()))
                 .orElseThrow(() -> new FilmCompanyNotFoundException("Кинокомпания не найдена с id " + request.getFilmCompanyId()));
 
-        Movie movie = mapper.toEntity(request, genre, country, director, filmCompany);
-
-        movieRepository.save(movie);
+        Movie movie = movieRepository.save(mapper.toEntity(request, genre, country, director, filmCompany));
 
         return mapper.toResponse(movie);
     }

@@ -19,7 +19,7 @@ import java.util.UUID;
 )
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("api/director")
+@RequestMapping("/api/director")
 public class DirectorController {
     private final DirectorService directorService;
 

@@ -9,7 +9,7 @@ import lombok.Data;
 @Data
 public class GenreRequest {
     @Schema(description = "Название")
-    @NotBlank(message = "Title is required")
-    @Size(max = 100, message = "Title cannot exceed 100 characters")
+    @NotBlank(message = "Требуется название")
+    @Size(max = 100, message = "TНазвание должно быть короче 100 символов")
     private String title;
 }

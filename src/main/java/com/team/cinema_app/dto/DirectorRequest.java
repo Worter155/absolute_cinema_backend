@@ -9,7 +9,7 @@ import lombok.Data;
 @Data
 public class DirectorRequest {
     @Schema(description = "Название")
-    @NotBlank(message = "Name is required")
-    @Size(max = 100, message = "Name cannot exceed 100 characters")
+    @NotBlank(message = "Требуется имя")
+    @Size(max = 100, message = "Имя должно быть короче 100 символов")
     private String name;
 }

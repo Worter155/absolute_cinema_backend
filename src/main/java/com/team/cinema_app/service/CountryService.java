@@ -33,8 +33,7 @@ public class CountryService {
     }
 
     public CountryResponse createCountry(CountryRequest request) {
-        Country country = countryMapper.toEntity(request);
-        countryRepository.save(country);
+        Country country = countryRepository.save(countryMapper.toEntity(request));
 
         return countryMapper.toResponse(country);
     }

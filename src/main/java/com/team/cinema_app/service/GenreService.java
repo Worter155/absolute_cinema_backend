@@ -35,8 +35,7 @@ public class GenreService {
     }
 
     public GenreResponse createGenre(GenreRequest request){
-        Genre genre = genreMapper.toEntity(request);
-        genreRepository.save(genre);
+        Genre genre = genreRepository.save(genreMapper.toEntity(request));
 
         return genreMapper.toResponse(genre);
     }

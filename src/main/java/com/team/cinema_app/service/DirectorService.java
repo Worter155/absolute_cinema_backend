@@ -33,8 +33,7 @@ public class DirectorService {
     }
 
     public DirectorResponse createDirector(DirectorRequest request) {
-        Director director = directorMapper.toEntity(request);
-        directorRepository.save(director);
+        Director director = directorRepository.save(directorMapper.toEntity(request));
 
         return directorMapper.toResponse(director);
     }
