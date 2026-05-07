@@ -1,10 +1,7 @@
 package com.team.cinema_app.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.Data;
 
 @Schema(description = "Зарос для зала")
@@ -26,9 +23,17 @@ public class HallRequest {
 
     @Schema(description = "Количество рядов")
     @NotNull(message = "Количество рядов должно быть больше 0")
+    @Min(
+            value = 1,
+            message = "Количество рядов должно быть больше 0"
+    )
     private int rows;
 
     @Schema(description = "Количество мест в ряду")
     @NotNull(message = "Количество мест в ряду должно быть больше 0")
+    @Min(
+            value = 1,
+            message = "Количество мест в ряду должно быть больше 0"
+    )
     private int columns;
 }

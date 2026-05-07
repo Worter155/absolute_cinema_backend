@@ -99,4 +99,31 @@ public class GlobalExceptionHandler {
         errors.put("message", "Тип места не найден");
         return ResponseEntity.badRequest().body(errors);
     }
+
+    @ExceptionHandler(SeatNotFoundException.class)
+    public ResponseEntity<Map<String, String>> handleSeatNotFoundException(SeatNotFoundException ex) {
+        log.warn("Место не найдено {}", ex.getMessage());
+
+        Map<String, String> errors = new HashMap<>();
+        errors.put("message", "Место не найдено");
+        return ResponseEntity.badRequest().body(errors);
+    }
+
+    @ExceptionHandler(SeatNotInHallException.class)
+    public ResponseEntity<Map<String, String>> handleSeatNotInHallException(SeatNotInHallException ex) {
+        log.warn("Место не может выходить за пределы зала {}", ex.getMessage());
+
+        Map<String, String> errors = new HashMap<>();
+        errors.put("message", "Место не может выходить за пределы зала");
+        return ResponseEntity.badRequest().body(errors);
+    }
+
+    @ExceptionHandler(SeatAlreadyExistsException.class)
+    public ResponseEntity<Map<String, String>> handleSeatAlreadyExistsException(SeatAlreadyExistsException ex) {
+        log.warn("Такое место уже существует {}", ex.getMessage());
+
+        Map<String, String> errors = new HashMap<>();
+        errors.put("message", "Такое место уже существует");
+        return ResponseEntity.badRequest().body(errors);
+    }
 }
