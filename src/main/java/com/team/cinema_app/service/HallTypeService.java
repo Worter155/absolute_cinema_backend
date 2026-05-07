@@ -27,7 +27,7 @@ public class HallTypeService {
                 .collect(Collectors.toList());
     }
 
-    public HallTypeResponse getHallType(UUID id){
+    public HallTypeResponse getHallTypeById(UUID id){
         HallType hallType = hallTypeRepository.findById(id)
                 .orElseThrow(() -> new HallTypeNotFoundException("Тип зала не найден c id " + id));
 
@@ -40,7 +40,7 @@ public class HallTypeService {
         return hallTypeMapper.toResponse(hallType);
     }
 
-    public HallTypeResponse updateHallType(UUID id, HallTypeRequest request){
+    public HallTypeResponse updateHallTypeById(UUID id, HallTypeRequest request){
         HallType hallType = hallTypeRepository.findById(id)
                 .orElseThrow(() -> new HallTypeNotFoundException("Тип зала не найден c id " + id));
 

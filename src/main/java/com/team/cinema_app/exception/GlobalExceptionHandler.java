@@ -90,4 +90,13 @@ public class GlobalExceptionHandler {
         errors.put("message", "Зал не найден");
         return ResponseEntity.badRequest().body(errors);
     }
+
+    @ExceptionHandler(SeatTypeNotFoundException.class)
+    public ResponseEntity<Map<String, String>> handleSeatTypeNotFoundException(SeatTypeNotFoundException ex) {
+        log.warn("Тип места не найден {}", ex.getMessage());
+
+        Map<String, String> errors = new HashMap<>();
+        errors.put("message", "Тип места не найден");
+        return ResponseEntity.badRequest().body(errors);
+    }
 }

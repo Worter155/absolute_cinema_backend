@@ -33,7 +33,7 @@ public class HallTypeController {
     @Operation(summary = "Получить тип зала по id")
     @GetMapping("/{id}")
     public ResponseEntity<HallTypeResponse> getHallTypeById(@PathVariable UUID id){
-        return ResponseEntity.ok().body(hallTypeService.getHallType(id));
+        return ResponseEntity.ok().body(hallTypeService.getHallTypeById(id));
     }
 
     @Operation(summary = "Создать тип зала")
@@ -45,7 +45,7 @@ public class HallTypeController {
     @Operation(summary = "Изменить тип зала по id")
     @PutMapping("/{id}")
     public ResponseEntity<HallTypeResponse> updateHallType(@PathVariable UUID id, @Valid @RequestBody HallTypeRequest request){
-        return ResponseEntity.ok().body(hallTypeService.updateHallType(id, request));
+        return ResponseEntity.ok().body(hallTypeService.updateHallTypeById(id, request));
     }
 
     @Operation(summary = "Удалить тип зала по id")
