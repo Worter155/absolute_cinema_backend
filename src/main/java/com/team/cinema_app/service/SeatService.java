@@ -85,7 +85,9 @@ public class SeatService {
 
         seatMapper.updateEntity(seat,request,hall,seatType);
 
-        return seatMapper.toResponse(seat);
+        Seat updated = seatRepository.save(seat);
+
+        return seatMapper.toResponse(updated);
     }
 
     public void deleteSeatById(UUID id){

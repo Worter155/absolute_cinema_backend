@@ -1,10 +1,7 @@
 package com.team.cinema_app.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.Data;
 
 @Schema(description = "Запрос для фильма")
@@ -18,10 +15,12 @@ public class MovieRequest {
 
     @Schema(description = "Длительность в минутах")
     @NotNull(message = "Требуется длительность")
+    @Min(0)
     private Integer duration;
 
     @Schema(description = "Возрастное ограничение")
     @NotNull(message = "Требуется возрастное ограничение")
+    @Min(0)
     private Integer ageLimit;
 
     @Schema(description = "id страны")

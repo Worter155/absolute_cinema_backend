@@ -47,9 +47,9 @@ public class SeatTypeService {
         seatType.setTitle(request.getTitle());
         seatType.setPriceMultiplier(request.getPriceMultiplier());
 
-        SeatType saved = seatTypeRepository.save(seatType);
+        SeatType updated = seatTypeRepository.save(seatType);
 
-        return seatTypeMapper.toResponse(saved);
+        return seatTypeMapper.toResponse(updated);
     }
 
     public void deleteSeatTypeById(UUID id){

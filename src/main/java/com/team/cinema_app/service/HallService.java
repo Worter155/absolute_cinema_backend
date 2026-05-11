@@ -58,9 +58,9 @@ public class HallService {
 
         hallMapper.updateEntity(hall, request, hallType);
 
-        hallRepository.save(hall);
+        Hall updated = hallRepository.save(hall);
 
-        return hallMapper.toResponse(hall);
+        return hallMapper.toResponse(updated);
     }
 
     public void deleteHallById(UUID id){

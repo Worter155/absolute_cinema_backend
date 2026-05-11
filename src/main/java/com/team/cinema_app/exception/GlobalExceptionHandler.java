@@ -126,4 +126,22 @@ public class GlobalExceptionHandler {
         errors.put("message", "Такое место уже существует");
         return ResponseEntity.badRequest().body(errors);
     }
+
+    @ExceptionHandler(SessionNotFoundException.class)
+    public ResponseEntity<Map<String, String>> handleSessionNotFoundException(SessionNotFoundException ex) {
+        log.warn("Сеанс не найден {}", ex.getMessage());
+
+        Map<String, String> errors = new HashMap<>();
+        errors.put("message", "Сеанс не найден");
+        return ResponseEntity.badRequest().body(errors);
+    }
+
+    @ExceptionHandler(SessionDateTimeIsBeforeNow.class)
+    public ResponseEntity<Map<String, String>> handleSessionDateTimeIsBeforeNow(SessionDateTimeIsBeforeNow ex) {
+        log.warn("Дата и время сеанса не могут быть в прошлом {}", ex.getMessage());
+
+        Map<String, String> errors = new HashMap<>();
+        errors.put("message", "Дата и время сеанса не могут быть в прошлом");
+        return ResponseEntity.badRequest().body(errors);
+    }
 }
