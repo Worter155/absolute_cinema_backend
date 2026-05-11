@@ -1,10 +1,12 @@
 package com.team.cinema_app.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Schema(description = "Запрос для сеанса")
 @Data
@@ -28,10 +30,7 @@ public class SessionRequest {
 
     @Schema(description = "Дата и время сеанса")
     @NotBlank(message = "Требуется дата и время сеанса")
-    @Pattern(
-            regexp = "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$",
-            message = "Дата и время должны быть в формате yyyy-MM-ddTHH:mm:ss"
-    )
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private String dateTime;
 
     @Schema(description = "Базовая цена")

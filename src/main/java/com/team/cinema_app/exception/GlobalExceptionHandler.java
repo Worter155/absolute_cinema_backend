@@ -7,6 +7,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.time.format.DateTimeParseException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -142,6 +143,15 @@ public class GlobalExceptionHandler {
 
         Map<String, String> errors = new HashMap<>();
         errors.put("message", "Дата и время сеанса не могут быть в прошлом");
+        return ResponseEntity.badRequest().body(errors);
+    }
+
+    @ExceptionHandler(DateTimeParseException.class)
+    public ResponseEntity<Map<String, String>> handleDateTimeParseException(DateTimeParseException ex) {
+        log.warn("Некорректная дата {}", ex.getMessage());
+
+        Map<String, String> errors = new HashMap<>();
+        errors.put("message", "Некорректная дата");
         return ResponseEntity.badRequest().body(errors);
     }
 }
