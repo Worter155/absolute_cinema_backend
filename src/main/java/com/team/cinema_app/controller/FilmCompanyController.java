@@ -19,7 +19,7 @@ import java.util.UUID;
 )
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/filmCompany")
+@RequestMapping("/api/filmCompanies")
 public class FilmCompanyController {
     private final FilmCompanyService filmCompanyService;
 
