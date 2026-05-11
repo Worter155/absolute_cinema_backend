@@ -1,17 +1,13 @@
 package com.team.cinema_app;
 
-import com.team.cinema_app.model.Country;
-import com.team.cinema_app.model.Director;
-import com.team.cinema_app.model.FilmCompany;
-import com.team.cinema_app.model.Genre;
-import com.team.cinema_app.repository.CountryRepository;
-import com.team.cinema_app.repository.DirectorRepository;
-import com.team.cinema_app.repository.FilmCompanyRepository;
-import com.team.cinema_app.repository.GenreRepository;
+import com.team.cinema_app.model.*;
+import com.team.cinema_app.model.enums.Role;
+import com.team.cinema_app.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
 
@@ -23,6 +19,8 @@ public class CinemaAppApplication implements CommandLineRunner {
 	private final CountryRepository countryRepository;
 	private final DirectorRepository directorRepository;
 	private final FilmCompanyRepository filmCompanyRepository;
+	private final UserRepository userRepository;
+	private final PasswordEncoder passwordEncoder;
 
 	public static void main(String[] args) {
 		SpringApplication.run(CinemaAppApplication.class, args);
@@ -30,6 +28,13 @@ public class CinemaAppApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) {
+		if (userRepository.count() == 0) {
+			userRepository.saveAll(List.of(
+					new User(null, "Андрей", "admin@example.com", "88005553535", passwordEncoder.encode("lolkek"), Role.ADMIN),
+					new User(null, "Влад", "user@example.com", "89008007060", passwordEncoder.encode("keklol"), Role.CLIENT)
+			));
+		}
+
 		if (genreRepository.count() == 0) {
 			genreRepository.saveAll(List.of(
 					new Genre(null, "Action"),
