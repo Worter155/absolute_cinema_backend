@@ -2,6 +2,7 @@ package com.team.cinema_app.controller;
 
 import com.team.cinema_app.dto.MovieRequest;
 import com.team.cinema_app.dto.MovieResponse;
+import com.team.cinema_app.exception.CantUploadFileException;
 import com.team.cinema_app.model.Movie;
 import com.team.cinema_app.service.MovieService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -101,7 +102,7 @@ public class MovieController {
                     .body(resource);
 
         } catch (Exception e) {
-            throw new RuntimeException("Не удалось загрузить файл");
+            throw new CantUploadFileException("Не удалось загрузить файл");
         }
     }
 

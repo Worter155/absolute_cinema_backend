@@ -1,12 +1,14 @@
 package com.team.cinema_app.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
 import lombok.Data;
 
 import java.util.UUID;
 
 @Schema(description = "Ответ с местом")
 @Data
+@Builder
 public class SeatResponse {
     @Schema(description = "id")
     private UUID id;

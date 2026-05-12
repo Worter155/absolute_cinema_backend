@@ -1,5 +1,6 @@
 package com.team.cinema_app.controller;
 
+import com.team.cinema_app.dto.OccupiedSeatResponse;
 import com.team.cinema_app.dto.SessionRequest;
 import com.team.cinema_app.dto.SessionResponse;
 import com.team.cinema_app.service.SessionService;
@@ -45,6 +46,18 @@ public class SessionController {
     @GetMapping("/{id}")
     public ResponseEntity<SessionResponse> getSessionById(@PathVariable UUID id) {
         return ResponseEntity.ok().body(sessionService.getSessionById(id));
+    }
+
+    @Operation(summary = "Получить все занятые места")
+    @GetMapping("/occupied-seats/{sessionId}")
+    public ResponseEntity<List<OccupiedSeatResponse>> getOccupiesSeatsBySessionId(@PathVariable UUID sessionId){
+        return ResponseEntity.ok().body(sessionService.getOccupiedSeatsBySessionId(sessionId));
+    }
+
+    @Operation(summary = "Получить цену места в сеансе места")
+    @GetMapping(value = "/seat-price")
+    public ResponseEntity<Double> getSeatPrice(@RequestParam("sessionId") UUID sessionId, @RequestParam("seatId") UUID seatId){
+        return ResponseEntity.ok().body(sessionService.getSeatPrice(sessionId,seatId));
     }
 
     @Operation(summary = "Создать сеанс")

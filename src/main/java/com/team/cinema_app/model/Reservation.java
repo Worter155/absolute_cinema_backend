@@ -1,6 +1,7 @@
 package com.team.cinema_app.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
@@ -31,21 +32,14 @@ public class Reservation {
     @NotNull
     private Session session;
 
-    @ManyToMany
-    @JoinTable(
-            name = "reservation_seats",
-
-            joinColumns = @JoinColumn(
-                    name = "reservation_id"
-            ),
-
-            inverseJoinColumns = @JoinColumn(
-                    name = "seat_id"
-            )
+    @OneToMany(
+            mappedBy = "reservation",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
     )
-    @NotNull
-    private List<Seat> seats = new ArrayList<>();;
+    @NotEmpty
+    private List<@NotNull ReservationSeat> reservationSeats = new ArrayList<>();
 
     @NotNull
-    private double price;
+    private double totalPrice;
 }

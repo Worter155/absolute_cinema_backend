@@ -28,33 +28,33 @@ public class SeatService {
     private final SeatTypeRepository seatTypeRepository;
     private final SeatMapper seatMapper;
 
-    public List<SeatResponse> getAllSeatsByHallId(UUID hallId){
+    public List<SeatResponse> getAllSeatsByHallId(UUID hallId) {
         return seatRepository.findAllByHallId(hallId)
                 .stream()
                 .map(seatMapper::toResponse)
                 .collect(Collectors.toList());
     }
 
-    public SeatResponse getSeatById(UUID id){
+    public SeatResponse getSeatById(UUID id) {
         Seat seat = seatRepository.findById(id)
                 .orElseThrow(() -> new SeatTypeNotFoundException("Место не найдено c id " + id));
 
         return seatMapper.toResponse(seat);
     }
 
-    public SeatResponse createSeat(SeatRequest request){
+    public SeatResponse createSeat(SeatRequest request) {
 
-        if(seatRepository.existsByHallIdAndSeatRowAndSeatColumn(UUID.fromString(request.getHallId()), request.getSeatRow(), request.getSeatColumn())){
+        if (seatRepository.existsByHallIdAndSeatRowAndSeatColumn(UUID.fromString(request.getHallId()), request.getSeatRow(), request.getSeatColumn())) {
             throw new SeatAlreadyExistsException("Такое место уже существует");
         }
 
         Hall hall = hallRepository.findById(UUID.fromString(request.getHallId()))
                 .orElseThrow(() -> new HallNotFoundException("Зал не найден c id " + request.getHallId()));
 
-        if(request.getSeatRow() > hall.getRows()){
+        if (request.getSeatRow() > hall.getRows()) {
             throw new SeatNotInHallException("Ряд места больше чем количество рядов в зале");
         }
-        if(request.getSeatColumn() > hall.getColumns()){
+        if (request.getSeatColumn() > hall.getColumns()) {
             throw new SeatNotInHallException("Место в ряду больше чем количество мест в ряду в зале");
         }
 
@@ -66,14 +66,14 @@ public class SeatService {
         return seatMapper.toResponse(saved);
     }
 
-    public SeatResponse updateSeatById(UUID id, SeatRequest request){
+    public SeatResponse updateSeatById(UUID id, SeatRequest request) {
         Hall hall = hallRepository.findById(UUID.fromString(request.getHallId()))
                 .orElseThrow(() -> new HallNotFoundException("Зал не найден c id " + request.getHallId()));
 
-        if(request.getSeatRow() > hall.getRows()){
+        if (request.getSeatRow() > hall.getRows()) {
             throw new SeatNotInHallException("Ряд места больше чем количество рядов в зале");
         }
-        if(request.getSeatColumn() > hall.getColumns()){
+        if (request.getSeatColumn() > hall.getColumns()) {
             throw new SeatNotInHallException("Место в ряду больше чем количество мест в ряду в зале");
         }
 
@@ -83,14 +83,14 @@ public class SeatService {
         Seat seat = seatRepository.findById(id)
                 .orElseThrow(() -> new SeatTypeNotFoundException("Место не найдено c id " + id));
 
-        seatMapper.updateEntity(seat,request,hall,seatType);
+        seatMapper.updateEntity(seat, request, hall, seatType);
 
         Seat updated = seatRepository.save(seat);
 
         return seatMapper.toResponse(updated);
     }
 
-    public void deleteSeatById(UUID id){
+    public void deleteSeatById(UUID id) {
         seatRepository.deleteById(id);
     }
 }

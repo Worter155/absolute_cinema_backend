@@ -69,7 +69,9 @@ public class SecurityConfig {
                                 "/api/halls/**",
                                 "/api/movies/**",
                                 "/api/sessions/**",
-                                "/api/seats/**"
+                                "/api/seats/**",
+                                "/api/sessions/seat-price",
+                                "/api/sessions/occupied-seats/**"
                         ).permitAll()
 
                         /*
@@ -77,7 +79,19 @@ public class SecurityConfig {
                          */
 
                         // личный кабинет
-                        .requestMatchers("/api/users/me")
+                        .requestMatchers(
+                                "/api/users/me",
+                                "/api/reservations/me")
+                        .authenticated()
+
+                        .requestMatchers(
+                                HttpMethod.POST,
+                                "/api/reservations")
+                        .authenticated()
+
+                        .requestMatchers(
+                                HttpMethod.DELETE,
+                                "/api/reservations/me/**")
                         .authenticated()
 
                         /*

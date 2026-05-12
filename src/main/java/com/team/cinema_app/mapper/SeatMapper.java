@@ -11,15 +11,13 @@ import org.springframework.stereotype.Component;
 public class SeatMapper {
 
     public SeatResponse toResponse(Seat seat) {
-        SeatResponse response = new SeatResponse();
-
-        response.setId(seat.getId());
-        response.setHallTitle(seat.getHall().getTitle());
-        response.setSeatTypeTitle(seat.getSeatType().getTitle());
-        response.setSeatRow(seat.getSeatRow());
-        response.setSeatColumn(seat.getSeatColumn());
-
-        return response;
+        return SeatResponse.builder()
+                .id(seat.getId())
+                .hallTitle(seat.getHall().getTitle())
+                .seatTypeTitle(seat.getSeatType().getTitle())
+                .seatRow(seat.getSeatRow())
+                .seatColumn(seat.getSeatColumn())
+                .build();
     }
 
     public Seat toEntity(SeatRequest request, Hall hall, SeatType seatType) {

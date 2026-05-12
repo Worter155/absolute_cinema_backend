@@ -1,18 +1,12 @@
 package com.team.cinema_app.service;
 
+import com.team.cinema_app.dto.OccupiedSeatResponse;
 import com.team.cinema_app.dto.SessionRequest;
 import com.team.cinema_app.dto.SessionResponse;
-import com.team.cinema_app.exception.HallNotFoundException;
-import com.team.cinema_app.exception.MovieNotFoundException;
-import com.team.cinema_app.exception.SessionDateTimeIsBeforeNow;
-import com.team.cinema_app.exception.SessionNotFoundException;
+import com.team.cinema_app.exception.*;
 import com.team.cinema_app.mapper.SessionMapper;
-import com.team.cinema_app.model.Hall;
-import com.team.cinema_app.model.Movie;
-import com.team.cinema_app.model.Session;
-import com.team.cinema_app.repository.HallRepository;
-import com.team.cinema_app.repository.MovieRepository;
-import com.team.cinema_app.repository.SessionRepository;
+import com.team.cinema_app.model.*;
+import com.team.cinema_app.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -30,35 +24,62 @@ public class SessionService {
     private final SessionRepository sessionRepository;
     private final MovieRepository movieRepository;
     private final HallRepository hallRepository;
+    private final ReservationSeatRepository reservationSeatRepository;
+    private final SeatRepository seatRepository;
     private final SessionMapper sessionMapper;
 
-    public List<SessionResponse> getAllSessions(){
+    public List<SessionResponse> getAllSessions() {
         return sessionRepository.findAll()
                 .stream()
                 .map(sessionMapper::toResponse)
                 .collect(Collectors.toList());
     }
 
-    public List<SessionResponse> getAllSessionsByDate(LocalDate date){
+    public List<SessionResponse> getAllSessionsByDate(LocalDate date) {
         LocalDateTime start = date.atStartOfDay();
         LocalDateTime end = date.atTime(LocalTime.MAX);
 
-        return sessionRepository.findAllByDateTimeBetween(start,end)
+        return sessionRepository.findAllByDateTimeBetween(start, end)
                 .stream()
                 .map(sessionMapper::toResponse)
                 .collect(Collectors.toList());
     }
 
-    public SessionResponse getSessionById(UUID id){
+    public SessionResponse getSessionById(UUID id) {
         Session session = sessionRepository.findById(id)
                 .orElseThrow(() -> new SessionNotFoundException("Сеанс не найден c id " + id));
 
         return sessionMapper.toResponse(session);
     }
 
-    public SessionResponse createSession(SessionRequest request){
+    public List<OccupiedSeatResponse> getOccupiedSeatsBySessionId(UUID sessionId) {
 
-        if(LocalDateTime.parse(request.getDateTime()).isBefore(LocalDateTime.now())){
+        List<ReservationSeat> reservationSeats = reservationSeatRepository.findAllBySessionId(sessionId);
+
+        return reservationSeats.stream()
+                .map(rs -> OccupiedSeatResponse.builder()
+                        .seatId(rs.getSeat().getId())
+                        .row(rs.getSeat().getSeatRow())
+                        .column(rs.getSeat().getSeatColumn())
+                        .build())
+                .toList();
+    }
+
+    public double getSeatPrice(UUID sessionId, UUID seatId) {
+
+        Session session = sessionRepository.findById(sessionId)
+                .orElseThrow(() -> new SessionNotFoundException("Сеанс не найден с id " + sessionId));
+
+        Seat seat = seatRepository.findById(seatId)
+                .orElseThrow(() -> new SeatNotFoundException("Место не найдено с id " + seatId));
+
+        return Math.round(seat.getSeatType().getPriceMultiplier() * session.getBasePrice() * session.getHall().getHallType().getPriceMultiplier() * 100.0) / 100.0;
+
+    }
+
+    public SessionResponse createSession(SessionRequest request) {
+
+        if (LocalDateTime.parse(request.getDateTime()).isBefore(LocalDateTime.now())) {
             throw new SessionDateTimeIsBeforeNow("Дата и время сеанса не могут быть в прошлом");
         }
 
@@ -73,9 +94,9 @@ public class SessionService {
         return sessionMapper.toResponse(session);
     }
 
-    public SessionResponse updateSessionById(UUID id, SessionRequest request){
+    public SessionResponse updateSessionById(UUID id, SessionRequest request) {
 
-        if(LocalDateTime.parse(request.getDateTime()).isBefore(LocalDateTime.now())){
+        if (LocalDateTime.parse(request.getDateTime()).isBefore(LocalDateTime.now())) {
             throw new SessionDateTimeIsBeforeNow("Дата и время сеанса не могут быть в прошлом");
         }
 
@@ -95,7 +116,7 @@ public class SessionService {
         return sessionMapper.toResponse(updated);
     }
 
-    public void deleteSessionById(UUID id){
+    public void deleteSessionById(UUID id) {
         sessionRepository.deleteById(id);
     }
 }

@@ -20,29 +20,29 @@ public class SeatTypeService {
     private final SeatTypeRepository seatTypeRepository;
     private final SeatTypeMapper seatTypeMapper;
 
-    public List<SeatTypeResponse> getAllSeatTypes(){
+    public List<SeatTypeResponse> getAllSeatTypes() {
         return seatTypeRepository.findAll()
                 .stream()
                 .map(seatTypeMapper::toResponse)
                 .collect(Collectors.toList());
     }
 
-    public SeatTypeResponse getSeatTypeById(UUID id){
+    public SeatTypeResponse getSeatTypeById(UUID id) {
         SeatType seatType = seatTypeRepository.findById(id)
-                .orElseThrow(()->new SeatTypeNotFoundException("Тип места не найден c id " + id));
+                .orElseThrow(() -> new SeatTypeNotFoundException("Тип места не найден c id " + id));
 
         return seatTypeMapper.toResponse(seatType);
     }
 
-    public SeatTypeResponse createSeatType(SeatTypeRequest request){
+    public SeatTypeResponse createSeatType(SeatTypeRequest request) {
         SeatType seatType = seatTypeRepository.save(seatTypeMapper.toEntity(request));
 
-        return  seatTypeMapper.toResponse(seatType);
+        return seatTypeMapper.toResponse(seatType);
     }
 
-    public SeatTypeResponse updateSeatTypeById(UUID id, SeatTypeRequest request){
+    public SeatTypeResponse updateSeatTypeById(UUID id, SeatTypeRequest request) {
         SeatType seatType = seatTypeRepository.findById(id)
-                .orElseThrow(()->new SeatTypeNotFoundException("Тип места не найден c id " + id));
+                .orElseThrow(() -> new SeatTypeNotFoundException("Тип места не найден c id " + id));
 
         seatType.setTitle(request.getTitle());
         seatType.setPriceMultiplier(request.getPriceMultiplier());
@@ -52,7 +52,7 @@ public class SeatTypeService {
         return seatTypeMapper.toResponse(updated);
     }
 
-    public void deleteSeatTypeById(UUID id){
+    public void deleteSeatTypeById(UUID id) {
         seatTypeRepository.deleteById(id);
     }
 }

@@ -1,13 +1,16 @@
 package com.team.cinema_app.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
 import lombok.Data;
+
+import java.util.UUID;
 
 @Schema(description = "Ответ с фильмом")
 @Data
 public class MovieResponse {
     @Schema(description = "id")
-    private String id;
+    private UUID id;
 
     @Schema(description = "Название")
     private String title;

@@ -35,39 +35,39 @@ public class CinemaAppApplication implements CommandLineRunner {
 			));
 		}
 
-		if (genreRepository.count() == 0) {
-			genreRepository.saveAll(List.of(
-					new Genre(null, "Action"),
-					new Genre(null, "Comedy"),
-					new Genre(null, "Drama"),
-					new Genre(null, "Horror")
-			));
-		}
-
-		if (countryRepository.count() == 0) {
-			countryRepository.saveAll(List.of(
-					new Country(null, "Russia"),
-					new Country(null, "USA"),
-					new Country(null, "Germany"),
-					new Country(null, "France")
-			));
-		}
-
-		if (directorRepository.count() == 0) {
-			directorRepository.saveAll(List.of(
-					new Director(null, "Steven Spielberg"),
-					new Director(null, "Christopher Nolan"),
-					new Director(null, "Quentin Tarantino")
-			));
-		}
-
-		if (filmCompanyRepository.count() == 0) {
-			filmCompanyRepository.saveAll(List.of(
-					new FilmCompany(null, "Warner Bros."),
-					new FilmCompany(null, "Universal Pictures"),
-					new FilmCompany(null, "20th Century Fox")
-			));
-		}
+//		if (genreRepository.count() == 0) {
+//			genreRepository.saveAll(List.of(
+//					new Genre(null, "Action"),
+//					new Genre(null, "Comedy"),
+//					new Genre(null, "Drama"),
+//					new Genre(null, "Horror")
+//			));
+//		}
+//
+//		if (countryRepository.count() == 0) {
+//			countryRepository.saveAll(List.of(
+//					new Country(null, "Russia"),
+//					new Country(null, "USA"),
+//					new Country(null, "Germany"),
+//					new Country(null, "France")
+//			));
+//		}
+//
+//		if (directorRepository.count() == 0) {
+//			directorRepository.saveAll(List.of(
+//					new Director(null, "Steven Spielberg"),
+//					new Director(null, "Christopher Nolan"),
+//					new Director(null, "Quentin Tarantino")
+//			));
+//		}
+//
+//		if (filmCompanyRepository.count() == 0) {
+//			filmCompanyRepository.saveAll(List.of(
+//					new FilmCompany(null, "Warner Bros."),
+//					new FilmCompany(null, "Universal Pictures"),
+//					new FilmCompany(null, "20th Century Fox")
+//			));
+//		}
 	}
 
 }

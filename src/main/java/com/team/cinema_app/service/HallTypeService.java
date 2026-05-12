@@ -20,27 +20,27 @@ public class HallTypeService {
     private final HallTypeRepository hallTypeRepository;
     private final HallTypeMapper hallTypeMapper;
 
-    public List<HallTypeResponse> getAllHallTypes(){
+    public List<HallTypeResponse> getAllHallTypes() {
         return hallTypeRepository.findAll()
                 .stream()
                 .map(hallTypeMapper::toResponse)
                 .collect(Collectors.toList());
     }
 
-    public HallTypeResponse getHallTypeById(UUID id){
+    public HallTypeResponse getHallTypeById(UUID id) {
         HallType hallType = hallTypeRepository.findById(id)
                 .orElseThrow(() -> new HallTypeNotFoundException("Тип зала не найден c id " + id));
 
         return hallTypeMapper.toResponse(hallType);
     }
 
-    public HallTypeResponse createHallType(HallTypeRequest request){
+    public HallTypeResponse createHallType(HallTypeRequest request) {
         HallType hallType = hallTypeRepository.save(hallTypeMapper.toEntity(request));
 
         return hallTypeMapper.toResponse(hallType);
     }
 
-    public HallTypeResponse updateHallTypeById(UUID id, HallTypeRequest request){
+    public HallTypeResponse updateHallTypeById(UUID id, HallTypeRequest request) {
         HallType hallType = hallTypeRepository.findById(id)
                 .orElseThrow(() -> new HallTypeNotFoundException("Тип зала не найден c id " + id));
 
@@ -52,7 +52,7 @@ public class HallTypeService {
         return hallTypeMapper.toResponse(updated);
     }
 
-    public void deleteHallTypeById(UUID id){
+    public void deleteHallTypeById(UUID id) {
         hallTypeRepository.deleteById(id);
     }
 }

@@ -182,4 +182,49 @@ public class GlobalExceptionHandler {
         errors.put("message", "Пользователь не найден");
         return ResponseEntity.badRequest().body(errors);
     }
+
+    @ExceptionHandler(ReservationNotFoundException.class)
+    public ResponseEntity<Map<String, String>> handleReservationNotFoundException(ReservationNotFoundException ex) {
+        log.warn("Бронь не найдена {}", ex.getMessage());
+
+        Map<String, String> errors = new HashMap<>();
+        errors.put("message", "Бронь не найдена");
+        return ResponseEntity.badRequest().body(errors);
+    }
+
+    @ExceptionHandler(SeatAlreadyReservedException.class)
+    public ResponseEntity<Map<String, String>> handleSeatAlreadyReservedException(SeatAlreadyReservedException ex) {
+        log.warn("Место уже забронировано {}", ex.getMessage());
+
+        Map<String, String> errors = new HashMap<>();
+        errors.put("message", "Место уже забронировано");
+        return ResponseEntity.badRequest().body(errors);
+    }
+
+    @ExceptionHandler(CantUploadFileException.class)
+    public ResponseEntity<Map<String, String>> handleCantUploadFileException(CantUploadFileException ex) {
+        log.warn("Не удалось загрузить файл {}", ex.getMessage());
+
+        Map<String, String> errors = new HashMap<>();
+        errors.put("message", "Не удалось загрузить файл");
+        return ResponseEntity.badRequest().body(errors);
+    }
+
+    @ExceptionHandler(CantSaveFileException.class)
+    public ResponseEntity<Map<String, String>> handleCantSaveFileException(CantSaveFileException ex) {
+        log.warn("Не удалось сохранить файл {}", ex.getMessage());
+
+        Map<String, String> errors = new HashMap<>();
+        errors.put("message", "Не удалось сохранить файл");
+        return ResponseEntity.badRequest().body(errors);
+    }
+
+    @ExceptionHandler(CantDeleteFileException.class)
+    public ResponseEntity<Map<String, String>> handleCantDeleteFileException(CantDeleteFileException ex) {
+        log.warn("Не удалось удалить файл {}", ex.getMessage());
+
+        Map<String, String> errors = new HashMap<>();
+        errors.put("message", "Не удалось удалить файл");
+        return ResponseEntity.badRequest().body(errors);
+    }
 }

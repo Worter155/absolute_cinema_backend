@@ -21,13 +21,13 @@ public class MovieService {
     private final MovieRepository movieRepository;
     private final GenreRepository genreRepository;
     private final CountryRepository countryRepository;
-    private  final DirectorRepository directorRepository;
+    private final DirectorRepository directorRepository;
     private final FilmCompanyRepository filmCompanyRepository;
     private final MovieMapper mapper;
 
     private final FileStorageService fileStorageService;
 
-    public MovieResponse createMovie(MovieRequest request){
+    public MovieResponse createMovie(MovieRequest request) {
 
         Genre genre = genreRepository.findById(UUID.fromString(request.getGenreId()))
                 .orElseThrow(() -> new GenreNotFoundException("Жанр не найден с id " + request.getGenreId()));
@@ -46,14 +46,14 @@ public class MovieService {
         return mapper.toResponse(movie);
     }
 
-    public List<MovieResponse> getAllMovies(){
+    public List<MovieResponse> getAllMovies() {
         return movieRepository.findAll()
                 .stream()
                 .map(mapper::toResponse)
                 .collect(Collectors.toList());
     }
 
-    public MovieResponse getMovieById(UUID id){
+    public MovieResponse getMovieById(UUID id) {
         Movie movie = movieRepository.findById(id)
                 .orElseThrow(() -> new MovieNotFoundException("Фильм не найден c id " + id));
         return mapper.toResponse(movie);
@@ -82,7 +82,7 @@ public class MovieService {
         return mapper.toResponse(updated);
     }
 
-    public void deleteMovie(UUID id){
+    public void deleteMovie(UUID id) {
         Movie movie = movieRepository.findById(id)
                 .orElseThrow(() -> new MovieNotFoundException("Фильм не найден c id " + id));
 

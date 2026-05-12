@@ -11,11 +11,11 @@ public class SessionResponse {
     @Schema(description = "id")
     private UUID id;
 
-    @Schema(description = "Название фильма")
-    private String movieTitle;
+    @Schema(description = "Фильм")
+    private MovieResponse movie;
 
-    @Schema(description = "Название зала")
-    private String hallTitle;
+    @Schema(description = "Зал")
+    private HallResponse hall;
 
     @Schema(description = "Дата и время сеанса")
     private String dateTime;
