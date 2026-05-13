@@ -13,6 +13,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -28,6 +29,8 @@ public class ReservationService {
     private final SessionRepository sessionRepository;
     private final SeatRepository seatRepository;
     private final ReservationMapper reservationMapper;
+    private final QrCodeService qrCodeService;
+    private final EmailService emailService;
 
     public List<ReservationResponse> getAllReservations() {
         return reservationRepository.findAll()
@@ -100,8 +103,6 @@ public class ReservationService {
                             .price(seatPrice)
                             .build();
 
-            //reservationSeatRepository.save(reservationSeat);
-
             reservationSeats.add(reservationSeat);
             totalPrice += seatPrice;
         }
@@ -110,6 +111,39 @@ public class ReservationService {
 
         reservation.setTotalPrice(totalPrice);
         Reservation saved = reservationRepository.save(reservation);
+
+        String seatsText = reservation.getReservationSeats()
+                .stream()
+                .map(rs ->
+                        "Ряд " + rs.getSeat().getSeatRow() +
+                                " Место " + rs.getSeat().getSeatColumn()
+                )
+                .collect(Collectors.joining(", "));
+
+        String text = """
+                Фильм: %s
+                Сеанс: %s
+                Зал: %s
+                Места: %s
+                """
+                .formatted(
+                        reservation.getSession().getMovie().getTitle(),
+                        reservation.getSession().getDateTime().format(DateTimeFormatter.ofPattern("dd MMMM HH:mm")),
+                        reservation.getSession().getHall().getTitle(),
+                        seatsText
+                );
+
+
+        String qrText = reservation.getId().toString();
+
+        byte[] qrCode =
+                qrCodeService.generateQrCode(qrText);
+
+        emailService.sendReservationEmail(
+                reservation.getUser().getEmail(),
+                qrCode,
+                text
+        );
 
         return reservationMapper.toResponse(saved);
     }
