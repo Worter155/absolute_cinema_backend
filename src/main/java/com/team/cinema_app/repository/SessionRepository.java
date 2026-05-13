@@ -14,4 +14,6 @@ public interface SessionRepository extends JpaRepository<Session, UUID> {
             LocalDateTime start,
             LocalDateTime end
     );
+
+    long countByDateTimeBetween(LocalDateTime start, LocalDateTime end);
 }

@@ -3,6 +3,8 @@ package com.team.cinema_app.service;
 import com.team.cinema_app.dto.HallTypeRequest;
 import com.team.cinema_app.dto.HallTypeResponse;
 import com.team.cinema_app.exception.HallTypeNotFoundException;
+import com.team.cinema_app.exception.MaxHallTypesCountException;
+import com.team.cinema_app.exception.MaxHallsCountException;
 import com.team.cinema_app.mapper.HallTypeMapper;
 import com.team.cinema_app.model.HallType;
 import com.team.cinema_app.repository.HallTypeRepository;
@@ -16,6 +18,8 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class HallTypeService {
+
+    private static final long MAX_HALL_TYPES = 3;
 
     private final HallTypeRepository hallTypeRepository;
     private final HallTypeMapper hallTypeMapper;
@@ -35,6 +39,11 @@ public class HallTypeService {
     }
 
     public HallTypeResponse createHallType(HallTypeRequest request) {
+
+        if (hallTypeRepository.count() >= MAX_HALL_TYPES) {
+            throw new MaxHallTypesCountException("Превышено максимальное количество типов залов (%s)".formatted(MAX_HALL_TYPES));
+        }
+
         HallType hallType = hallTypeRepository.save(hallTypeMapper.toEntity(request));
 
         return hallTypeMapper.toResponse(hallType);

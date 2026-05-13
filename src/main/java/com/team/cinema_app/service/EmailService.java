@@ -1,5 +1,6 @@
 package com.team.cinema_app.service;
 
+import com.team.cinema_app.exception.CantSendEmailException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 
@@ -52,7 +53,7 @@ public class EmailService {
             mailSender.send(message);
 
         } catch (Exception e) {
-            throw new RuntimeException("Email send failed");
+            throw new CantSendEmailException("Не получилось отправить электронное письмо");
         }
     }
 }

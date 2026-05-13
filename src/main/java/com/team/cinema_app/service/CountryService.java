@@ -3,6 +3,8 @@ package com.team.cinema_app.service;
 import com.team.cinema_app.dto.CountryRequest;
 import com.team.cinema_app.dto.CountryResponse;
 import com.team.cinema_app.exception.CountryNotFoundException;
+import com.team.cinema_app.exception.MaxCountriesCountException;
+import com.team.cinema_app.exception.MaxHallsCountException;
 import com.team.cinema_app.mapper.CountryMapper;
 import com.team.cinema_app.model.Country;
 import com.team.cinema_app.repository.CountryRepository;
@@ -16,6 +18,9 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class CountryService {
+
+    private static final long MAX_COUNTRIES = 80;
+
     private final CountryRepository countryRepository;
     private final CountryMapper countryMapper;
 
@@ -33,6 +38,11 @@ public class CountryService {
     }
 
     public CountryResponse createCountry(CountryRequest request) {
+
+        if (countryRepository.count() >= MAX_COUNTRIES) {
+            throw new MaxCountriesCountException("Превышено максимальное количество стран (%s)".formatted(MAX_COUNTRIES));
+        }
+
         Country country = countryRepository.save(countryMapper.toEntity(request));
 
         return countryMapper.toResponse(country);

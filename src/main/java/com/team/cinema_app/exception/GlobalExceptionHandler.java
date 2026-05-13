@@ -227,4 +227,103 @@ public class GlobalExceptionHandler {
         errors.put("message", "Не удалось удалить файл");
         return ResponseEntity.badRequest().body(errors);
     }
+
+    @ExceptionHandler(CantCreateQrCodeException.class)
+    public ResponseEntity<Map<String, String>> handleCantCreateQrCodeException(CantCreateQrCodeException ex) {
+        log.warn("Не получилось сгенерировать QR код {}", ex.getMessage());
+
+        Map<String, String> errors = new HashMap<>();
+        errors.put("message", "Не получилось сгенерировать QR код");
+        return ResponseEntity.badRequest().body(errors);
+    }
+
+    @ExceptionHandler(CantSendEmailException.class)
+    public ResponseEntity<Map<String, String>> handleCantSendEmailException(CantSendEmailException ex) {
+        log.warn("Не получилось отправить электронное письмо {}", ex.getMessage());
+
+        Map<String, String> errors = new HashMap<>();
+        errors.put("message", "Не получилось отправить электронное письмо");
+        return ResponseEntity.badRequest().body(errors);
+    }
+
+    @ExceptionHandler(MaxHallsCountException.class)
+    public ResponseEntity<Map<String, String>> handleMaxHallsCountException(MaxHallsCountException ex) {
+        log.warn("Превышено максимальное количество залов {}", ex.getMessage());
+
+        Map<String, String> errors = new HashMap<>();
+        errors.put("message", "Превышено максимальное количество залов");
+        return ResponseEntity.badRequest().body(errors);
+    }
+
+    @ExceptionHandler(MaxHallTypesCountException.class)
+    public ResponseEntity<Map<String, String>> handleMaxHallTypesCountException(MaxHallTypesCountException ex) {
+        log.warn("Превышено максимальное количество типов залов {}", ex.getMessage());
+
+        Map<String, String> errors = new HashMap<>();
+        errors.put("message", "Превышено максимальное количество типов залов");
+        return ResponseEntity.badRequest().body(errors);
+    }
+
+    @ExceptionHandler(MaxSeatTypesCountException.class)
+    public ResponseEntity<Map<String, String>> handleMaxSeatTypesCountException(MaxSeatTypesCountException ex) {
+        log.warn("Превышено максимальное количество типов мест {}", ex.getMessage());
+
+        Map<String, String> errors = new HashMap<>();
+        errors.put("message", "Превышено максимальное количество типов мест");
+        return ResponseEntity.badRequest().body(errors);
+    }
+
+    @ExceptionHandler(MaxGenresCountException.class)
+    public ResponseEntity<Map<String, String>> handleMaxGenresCountException(MaxGenresCountException ex) {
+        log.warn("Превышено максимальное количество жанров {}", ex.getMessage());
+
+        Map<String, String> errors = new HashMap<>();
+        errors.put("message", "Превышено максимальное количество жанров");
+        return ResponseEntity.badRequest().body(errors);
+    }
+
+    @ExceptionHandler(MaxDirectorsCountException.class)
+    public ResponseEntity<Map<String, String>> handleMaxDirectorsCountException(MaxDirectorsCountException ex) {
+        log.warn("Превышено максимальное количество режиссеров {}", ex.getMessage());
+
+        Map<String, String> errors = new HashMap<>();
+        errors.put("message", "Превышено максимальное количество режиссеров");
+        return ResponseEntity.badRequest().body(errors);
+    }
+
+    @ExceptionHandler(MaxCountriesCountException.class)
+    public ResponseEntity<Map<String, String>> handleMaxCountriesCountException(MaxCountriesCountException ex) {
+        log.warn("Превышено максимальное количество стран {}", ex.getMessage());
+
+        Map<String, String> errors = new HashMap<>();
+        errors.put("message", "Превышено максимальное количество стран");
+        return ResponseEntity.badRequest().body(errors);
+    }
+
+    @ExceptionHandler(MaxFilmCompaniesCountException.class)
+    public ResponseEntity<Map<String, String>> handleMaxFilmCompaniesCountException(MaxFilmCompaniesCountException ex) {
+        log.warn("Превышено максимальное количество кинокомпаний {}", ex.getMessage());
+
+        Map<String, String> errors = new HashMap<>();
+        errors.put("message", "Превышено максимальное количество кинокомпаний");
+        return ResponseEntity.badRequest().body(errors);
+    }
+
+    @ExceptionHandler(MaxUsersCountException.class)
+    public ResponseEntity<Map<String, String>> handleMaxUsersCountException(MaxUsersCountException ex) {
+        log.warn("Превышено максимальное количество пользователей {}", ex.getMessage());
+
+        Map<String, String> errors = new HashMap<>();
+        errors.put("message", "Превышено максимальное количество пользователей");
+        return ResponseEntity.badRequest().body(errors);
+    }
+
+    @ExceptionHandler(SessionLimitExceededException.class)
+    public ResponseEntity<Map<String, String>> handleSessionLimitExceededException(SessionLimitExceededException ex) {
+        log.warn("Превышено максимальное количество сеансов за день {}", ex.getMessage());
+
+        Map<String, String> errors = new HashMap<>();
+        errors.put("message", "Превышено максимальное количество сеансов за день");
+        return ResponseEntity.badRequest().body(errors);
+    }
 }

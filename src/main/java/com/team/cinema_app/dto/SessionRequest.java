@@ -2,9 +2,7 @@ package com.team.cinema_app.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.*;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -35,5 +33,13 @@ public class SessionRequest {
 
     @Schema(description = "Базовая цена")
     @NotNull(message = "Требуется базовая цена")
+    @Min(
+            value = 250,
+            message = "Минимальная базовая цена билета 250 рублей"
+    )
+    @Max(
+            value = 600,
+            message = "Максимальная базовая цена билета 600 рублей"
+    )
     private double basePrice;
 }

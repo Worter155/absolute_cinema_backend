@@ -3,6 +3,8 @@ package com.team.cinema_app.service;
 import com.team.cinema_app.dto.DirectorRequest;
 import com.team.cinema_app.dto.DirectorResponse;
 import com.team.cinema_app.exception.DirectorNotFoundException;
+import com.team.cinema_app.exception.MaxDirectorsCountException;
+import com.team.cinema_app.exception.MaxHallsCountException;
 import com.team.cinema_app.mapper.DirectorMapper;
 import com.team.cinema_app.model.Director;
 import com.team.cinema_app.repository.DirectorRepository;
@@ -16,6 +18,9 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class DirectorService {
+
+    private static final long MAX_DIRECTORS = 60;
+
     private final DirectorRepository directorRepository;
     private final DirectorMapper directorMapper;
 
@@ -33,6 +38,11 @@ public class DirectorService {
     }
 
     public DirectorResponse createDirector(DirectorRequest request) {
+
+        if (directorRepository.count() >= MAX_DIRECTORS) {
+            throw new MaxDirectorsCountException("Превышено максимальное количество режиссеров (%s)".formatted(MAX_DIRECTORS));
+        }
+
         Director director = directorRepository.save(directorMapper.toEntity(request));
 
         return directorMapper.toResponse(director);

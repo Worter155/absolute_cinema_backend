@@ -4,6 +4,7 @@ import com.team.cinema_app.dto.HallRequest;
 import com.team.cinema_app.dto.HallResponse;
 import com.team.cinema_app.exception.HallNotFoundException;
 import com.team.cinema_app.exception.HallTypeNotFoundException;
+import com.team.cinema_app.exception.MaxHallsCountException;
 import com.team.cinema_app.mapper.HallMapper;
 import com.team.cinema_app.model.Hall;
 import com.team.cinema_app.model.HallType;
@@ -19,6 +20,8 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class HallService {
+
+    private static final long MAX_HALLS = 5;
 
     private final HallRepository hallRepository;
     private final HallTypeRepository hallTypeRepository;
@@ -39,6 +42,10 @@ public class HallService {
     }
 
     public HallResponse createHall(HallRequest request) {
+
+        if (hallRepository.count() >= MAX_HALLS) {
+            throw new MaxHallsCountException("Превышено максимальное количество залов (%s)".formatted(MAX_HALLS));
+        }
 
         HallType hallType = hallTypeRepository.findById(UUID.fromString(request.getHallTypeId()))
                 .orElseThrow(() -> new HallTypeNotFoundException("Тип зала не найден c id " + request.getHallTypeId()));

@@ -24,16 +24,24 @@ public class HallRequest {
     @Schema(description = "Количество рядов")
     @NotNull(message = "Количество рядов должно быть больше 0")
     @Min(
-            value = 1,
-            message = "Количество рядов должно быть больше 0"
+            value = 6,
+            message = "Количество рядов должно быть не меньше 6"
+    )
+    @Max(
+            value = 11,
+            message = "Количество рядов должно быть не больше 11"
     )
     private int rows;
 
     @Schema(description = "Количество мест в ряду")
     @NotNull(message = "Количество мест в ряду должно быть больше 0")
     @Min(
-            value = 1,
-            message = "Количество мест в ряду должно быть больше 0"
+            value = 8,
+            message = "Количество мест в ряду должно быть не меньше 8"
+    )
+    @Max(
+            value = 11,
+            message = "Количество мест в ряду должно быть не больше 20"
     )
     private int columns;
 }

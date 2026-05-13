@@ -2,6 +2,8 @@ package com.team.cinema_app.service;
 
 import com.team.cinema_app.dto.SeatTypeRequest;
 import com.team.cinema_app.dto.SeatTypeResponse;
+import com.team.cinema_app.exception.MaxHallsCountException;
+import com.team.cinema_app.exception.MaxSeatTypesCountException;
 import com.team.cinema_app.exception.SeatTypeNotFoundException;
 import com.team.cinema_app.mapper.SeatTypeMapper;
 import com.team.cinema_app.model.SeatType;
@@ -16,6 +18,8 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class SeatTypeService {
+
+    private static final long MAX_SEAT_TYPES = 3;
 
     private final SeatTypeRepository seatTypeRepository;
     private final SeatTypeMapper seatTypeMapper;
@@ -35,6 +39,11 @@ public class SeatTypeService {
     }
 
     public SeatTypeResponse createSeatType(SeatTypeRequest request) {
+
+        if (seatTypeRepository.count() >= MAX_SEAT_TYPES) {
+            throw new MaxSeatTypesCountException("Превышено максимальное количество типов мест (%s)".formatted(MAX_SEAT_TYPES));
+        }
+
         SeatType seatType = seatTypeRepository.save(seatTypeMapper.toEntity(request));
 
         return seatTypeMapper.toResponse(seatType);

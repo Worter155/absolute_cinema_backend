@@ -4,6 +4,7 @@ import com.google.zxing.*;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 
+import com.team.cinema_app.exception.CantCreateQrCodeException;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;
@@ -35,7 +36,7 @@ public class QrCodeService {
             return outputStream.toByteArray();
 
         } catch (Exception e) {
-            throw new RuntimeException("QR generation failed");
+            throw new CantCreateQrCodeException("Не получилось сгенерировать QR код");
         }
     }
 }

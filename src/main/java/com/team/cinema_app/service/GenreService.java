@@ -3,6 +3,8 @@ package com.team.cinema_app.service;
 import com.team.cinema_app.dto.GenreRequest;
 import com.team.cinema_app.dto.GenreResponse;
 import com.team.cinema_app.exception.GenreNotFoundException;
+import com.team.cinema_app.exception.MaxGenresCountException;
+import com.team.cinema_app.exception.MaxHallsCountException;
 import com.team.cinema_app.mapper.GenreMapper;
 import com.team.cinema_app.model.Genre;
 import com.team.cinema_app.repository.GenreRepository;
@@ -16,6 +18,9 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class GenreService {
+
+    private static final long MAX_GENRES = 30;
+
     private final GenreRepository genreRepository;
     private final GenreMapper genreMapper;
 
@@ -33,6 +38,11 @@ public class GenreService {
     }
 
     public GenreResponse createGenre(GenreRequest request) {
+
+        if (genreRepository.count() >= MAX_GENRES) {
+            throw new MaxGenresCountException("Превышено максимальное количество жанров (%s)".formatted(MAX_GENRES));
+        }
+
         Genre genre = genreRepository.save(genreMapper.toEntity(request));
 
         return genreMapper.toResponse(genre);

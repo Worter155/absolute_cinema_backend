@@ -21,6 +21,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class SessionService {
 
+    private static final long MAX_SESSIONS_PER_DAY = 25;
+
     private final SessionRepository sessionRepository;
     private final MovieRepository movieRepository;
     private final HallRepository hallRepository;
@@ -83,6 +85,16 @@ public class SessionService {
             throw new SessionDateTimeIsBeforeNow("Дата и время сеанса не могут быть в прошлом");
         }
 
+        LocalDateTime sessionDateTime = LocalDateTime.parse(request.getDateTime());
+        LocalDateTime startOfDay = sessionDateTime.toLocalDate().atStartOfDay();
+        LocalDateTime endOfDay = sessionDateTime.toLocalDate().atTime(LocalTime.MAX);
+
+        long sessionsCount = sessionRepository.countByDateTimeBetween(startOfDay, endOfDay);
+
+        if (sessionsCount >= MAX_SESSIONS_PER_DAY) {
+            throw new SessionLimitExceededException("На этот день уже создано максимальное количество сеансов (%s)".formatted(MAX_SESSIONS_PER_DAY));
+        }
+
         Movie movie = movieRepository.findById(UUID.fromString(request.getMovieId()))
                 .orElseThrow(() -> new MovieNotFoundException("Фильм не найден c id " + request.getMovieId()));
 
@@ -108,6 +120,22 @@ public class SessionService {
 
         Session session = sessionRepository.findById(id)
                 .orElseThrow(() -> new SessionNotFoundException("Сеанс не найден c id " + id));
+
+        LocalDate newDate = LocalDateTime.parse(request.getDateTime()).toLocalDate();
+
+        if (!session.getDateTime().toLocalDate().equals(newDate)) {
+
+            LocalDateTime startOfDay = newDate.atStartOfDay();
+            LocalDateTime endOfDay = newDate.atTime(LocalTime.MAX);
+
+            long sessionsCount = sessionRepository.countByDateTimeBetween(startOfDay, endOfDay);
+
+            if (sessionsCount >= MAX_SESSIONS_PER_DAY) {
+                throw new SessionLimitExceededException(
+                        "На этот день уже создано максимальное количество сеансов (%s)".formatted(MAX_SESSIONS_PER_DAY)
+                );
+            }
+        }
 
         sessionMapper.updateEntity(request, session, movie, hall);
 
