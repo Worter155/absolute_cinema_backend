@@ -16,11 +16,11 @@ public class MovieRequest {
     @Schema(description = "Длительность в минутах")
     @NotNull(message = "Требуется длительность")
     @Min(
-            value = 250,
+            value = 50,
             message = "Минимальная длительность фильма 50 мин"
     )
     @Max(
-            value = 600,
+            value = 270,
             message = "Максимальная длительность фильма 270 мин"
     )
     private Integer duration;

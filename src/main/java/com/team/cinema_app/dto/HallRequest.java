@@ -40,7 +40,7 @@ public class HallRequest {
             message = "Количество мест в ряду должно быть не меньше 8"
     )
     @Max(
-            value = 11,
+            value = 20,
             message = "Количество мест в ряду должно быть не больше 20"
     )
     private int columns;
