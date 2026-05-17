@@ -2,6 +2,7 @@ package com.team.cinema_app.service;
 
 import com.team.cinema_app.dto.HallRequest;
 import com.team.cinema_app.dto.HallResponse;
+import com.team.cinema_app.exception.HallHasSessionException;
 import com.team.cinema_app.exception.HallNotFoundException;
 import com.team.cinema_app.exception.HallTypeNotFoundException;
 import com.team.cinema_app.exception.MaxHallsCountException;
@@ -10,6 +11,7 @@ import com.team.cinema_app.model.Hall;
 import com.team.cinema_app.model.HallType;
 import com.team.cinema_app.repository.HallRepository;
 import com.team.cinema_app.repository.HallTypeRepository;
+import com.team.cinema_app.repository.SessionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +27,7 @@ public class HallService {
 
     private final HallRepository hallRepository;
     private final HallTypeRepository hallTypeRepository;
+    private final SessionRepository sessionRepository;
     private final HallMapper hallMapper;
 
     public List<HallResponse> getAllHalls() {
@@ -71,6 +74,11 @@ public class HallService {
     }
 
     public void deleteHallById(UUID id) {
+
+        if (sessionRepository.existsByHallId(id)) {
+            throw new HallHasSessionException("Зал используется в сеансе");
+        }
+
         hallRepository.deleteById(id);
     }
 }

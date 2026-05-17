@@ -10,7 +10,7 @@ public class HallRequest {
 
     @Schema(description = "Название")
     @NotBlank(message = "Требуется название")
-    @Size(max = 100, message = "TНазвание должно быть короче 100 символов")
+    @Size(max = 100, message = "Название должно быть короче 100 символов")
     private String title;
 
     @Schema(description = "Id типа зала")

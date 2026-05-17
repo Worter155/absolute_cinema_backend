@@ -9,6 +9,7 @@ import com.team.cinema_app.model.Seat;
 import lombok.Builder;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -16,17 +17,20 @@ import java.util.List;
 public class HallMapper {
 
     public HallResponse toResponse(Hall hall){
-        List<SeatResponse> seats = hall.getSeats()
-                .stream()
-                .map(s -> SeatResponse.builder()
-                        .id(s.getId())
-                        .seatRow(s.getSeatRow())
-                        .seatColumn(s.getSeatColumn())
-                        .seatTypeTitle(s.getSeatType().getTitle())
-                        .hallTitle(hall.getTitle())
-                        .build())
-                .toList();
 
+        List<SeatResponse> seats = new ArrayList<>();
+        if(hall.getSeats() != null) {
+            seats = hall.getSeats()
+                    .stream()
+                    .map(s -> SeatResponse.builder()
+                            .id(s.getId())
+                            .seatRow(s.getSeatRow())
+                            .seatColumn(s.getSeatColumn())
+                            .seatTypeTitle(s.getSeatType().getTitle())
+                            .hallTitle(hall.getTitle())
+                            .build())
+                    .toList();
+        }
         HallResponse response = new HallResponse();
         response.setId(hall.getId());
         response.setTitle(hall.getTitle());

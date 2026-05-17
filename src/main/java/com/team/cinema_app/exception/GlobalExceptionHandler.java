@@ -326,4 +326,13 @@ public class GlobalExceptionHandler {
         errors.put("message", "Превышено максимальное количество сеансов за день");
         return ResponseEntity.badRequest().body(errors);
     }
+
+    @ExceptionHandler(HallHasSessionException.class)
+    public ResponseEntity<Map<String, String>> handleHallHasSessionException(HallHasSessionException ex) {
+        log.warn("Зал используется в сеансе {}", ex.getMessage());
+
+        Map<String, String> errors = new HashMap<>();
+        errors.put("message", "Зал используется в сеансе");
+        return ResponseEntity.badRequest().body(errors);
+    }
 }

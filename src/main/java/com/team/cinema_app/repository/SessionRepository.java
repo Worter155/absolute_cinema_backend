@@ -16,4 +16,6 @@ public interface SessionRepository extends JpaRepository<Session, UUID> {
     );
 
     long countByDateTimeBetween(LocalDateTime start, LocalDateTime end);
+
+    boolean existsByHallId(UUID id);
 }

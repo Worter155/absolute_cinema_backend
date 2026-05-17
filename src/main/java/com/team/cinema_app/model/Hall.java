@@ -40,6 +40,5 @@ public class Hall {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    @NotEmpty
     private List<@NotNull Seat> seats = new ArrayList<>();
 }
